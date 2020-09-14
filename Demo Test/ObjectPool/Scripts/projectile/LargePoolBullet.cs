@@ -2,8 +2,7 @@
 using UnityEngine;
 using Dongpn.ObjectPool;
 
-[PrefabsFactory("Sphere")]
-public class Bullet : SmallPoolItem
+public class LargePoolBullet : LargePoolItem
 {
     private Rigidbody rg;
     private float speed = 10f;
@@ -34,10 +33,10 @@ public class Bullet : SmallPoolItem
 
     public override void ObjectActive()
     {
-        base.ObjectActive();
+        //base.ObjectActive();
         //Debug.Log("Active Object");
         gameObject.SetActive(true);
-        Fire();
+        //Fire();
         StartCoroutine(IEActiveObjects());
     }
 
@@ -45,8 +44,8 @@ public class Bullet : SmallPoolItem
     {
         //Debug.Log("Deactive Object");
         gameObject.SetActive(false);
-        //BulletPoolManager.Instance.ObjectRecycle(index);
-        base.ObjectDeactive();
+        BulletPoolManager.Instance.ObjectRecycle(Index);
+        //base.ObjectDeactive();
     }
 
     IEnumerator IEActiveObjects()
@@ -57,31 +56,4 @@ public class Bullet : SmallPoolItem
         //Debug.Log(string.Format("After {0}s, deactive",time));
         ObjectDeactive();
     }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.tag != "Player")
-        {
-            Debug.Log("hit " + collision.gameObject.name);
-            HitObjects(collision.gameObject);
-        }
-    }
-
-    private void HitObjects(GameObject hit)
-    {
-        PlayerHealth ph = hit.GetComponent<PlayerHealth>();
-        if (ph!=null)
-        {
-            if(!ph.IsDead)
-            {
-                ph.TakeDamage(20);
-                if(ph.IsDead)
-                {
-                    new KillEvent(owner.gameObject, hit).Trigger();
-                }
-            }
-        }
-        ObjectDeactive();
-    }
-
 }

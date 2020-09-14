@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Dongpn.ObjectPool
 {
-    public abstract class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour, IPoolable
+    public abstract class ObjectPool<T> : MonoBehaviour where T : LargePoolItem
     {
         [SerializeField]
         private GameObject prefab;

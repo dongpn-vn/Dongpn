@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Dongpn.ObjectPool;
 
-public class BulletPoolManager : ObjectPool<Bullet>
+public class BulletPoolManager : ObjectPool<LargePoolBullet>
 {
     private static BulletPoolManager instance;
     public static BulletPoolManager Instance

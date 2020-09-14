@@ -9,9 +9,9 @@ namespace Dongpn.ObjectPool
     public class ObjectsPoolManager : Singleton<ObjectsPoolManager>
     {
 
-        static Dictionary<string, List<IPoolable>> poolDic = new Dictionary<string, List<IPoolable>>();
+        static Dictionary<string, List<SmallPoolItem>> poolDic = new Dictionary<string, List<SmallPoolItem>>();
 
-        private static List<IPoolable> GetList(string typeOf) 
+        private static List<SmallPoolItem> GetList(string typeOf) 
         {
             if (poolDic.ContainsKey(typeOf))
             {
@@ -19,16 +19,16 @@ namespace Dongpn.ObjectPool
             }
             else
             {
-                List<IPoolable> list = new List<IPoolable>();
+                List<SmallPoolItem> list = new List<SmallPoolItem>();
                 poolDic[typeOf] = list;
                 return list;
             }
         }
 
-        public T RequestObject<T>() where T : MonoBehaviour, IPoolable
+        public T RequestObject<T>() where T : SmallPoolItem
         {
             Debug.Log("Request Objects");
-            List<IPoolable> list = GetList(typeof(T).Name);
+            List<SmallPoolItem> list = GetList(typeof(T).Name);
 
             for (int i = 0; i < list.Count; i++)
             {
@@ -43,7 +43,7 @@ namespace Dongpn.ObjectPool
             return next_object;
         }
 
-        private T GetNewInstance<T>() where T : MonoBehaviour
+        private T GetNewInstance<T>() where T : SmallPoolItem
         {
             System.Attribute[] attrs = System.Attribute.GetCustomAttributes(typeof(T));
 
