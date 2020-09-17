@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Dongpn.ObjectPool;
 
 public class Game : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class Game : MonoBehaviour
     void Start()
     {
         scoreText.text = "Score: "+score;
+        if(!ObjectsLibrary.InstanceExists)
+        {
+            ObjectsLibrary.Instance.Awake();
+        }
     }
 
     // Update is called once per frame

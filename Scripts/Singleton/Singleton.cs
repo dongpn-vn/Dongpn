@@ -14,36 +14,36 @@ namespace Dongpn.Singleton
         {
             get
             {
-                //if (instance == null)
-                //{
-                //    instance = new GameObject(typeof(T).Name).AddComponent<T>();
-                //}
+                if (instance == null)
+                {
+                    instance = new GameObject(typeof(T).Name).AddComponent<T>();
+                }
                 return instance;
             }
 
             protected set => instance = value;
         }
 
-        public static bool InstanceExists { get { return Instance != null; } }
+        public static bool InstanceExists { get { return instance != null; } }
 
-        protected virtual void Awake()
+        public virtual void Awake()
         {
-            if (Instance != null)
+            if (instance != null && instance.GetInstanceID() != this.GetInstanceID())
             {
                 Destroy(gameObject);
             }
             else
             {
-                Instance = (T)this;
+                instance = (T)this;
             }
         }
 
 
         protected virtual void OnDestroy()
         {
-            if (Instance == this)
+            if (instance == this)
             {
-                Instance = null;
+                instance = null;
             }
         }
 
