@@ -5,55 +5,46 @@ using Dongpn.ObjectPool;
 public class LargePoolBullet : LargePoolItem
 {
     private Rigidbody rg;
-    private float speed = 10f;
-    private Vector3 _direction;
-
-    private PlayerManagement owner;
+    private Transform tf;
+    private float up = 1.0f;
+    private float side = 0.1f;
+    private Vector3 spawnPostion = new Vector3(0,2,0);
 
     void OnEnable()
     {
         rg = GetComponent<Rigidbody>();
-    }
-
-    public void SetDirection(Vector3 direction)
-    {
-        _direction = direction;
-    }
-
-    public void SetOwner(PlayerManagement pm)
-    {
-        owner = pm;
-        Physics.IgnoreCollision(pm.GetComponent<Collider>(), GetComponent<Collider>());
+        tf = transform;
     }
 
     private void Fire()
     {
-        rg.velocity = _direction.normalized * speed;
+        float x = Random.Range(-side, side);
+        float y = Random.Range(up/2, up);
+        float z = Random.Range(-side, side);
+
+        rg.velocity = new Vector3(x,y,z);
     }
 
     public override void ObjectActive()
     {
-        //base.ObjectActive();
-        //Debug.Log("Active Object");
         gameObject.SetActive(true);
-        //Fire();
-        StartCoroutine(IEActiveObjects());
+        tf.position = spawnPostion;
+        Fire();
+
     }
 
     public override void ObjectDeactive()
     {
-        //Debug.Log("Deactive Object");
         gameObject.SetActive(false);
         BulletPoolManager.Instance.ObjectRecycle(Index);
-        //base.ObjectDeactive();
     }
 
-    IEnumerator IEActiveObjects()
+    private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("Start");
-        float time = Random.Range(1.0f, 10.0f);
-        yield return new WaitForSeconds(time);
-        //Debug.Log(string.Format("After {0}s, deactive",time));
-        ObjectDeactive();
+        Debug.Log("Tag: "+other.tag);
+        if(other.tag == "Respawn")
+        {
+            ObjectDeactive();
+        }
     }
 }

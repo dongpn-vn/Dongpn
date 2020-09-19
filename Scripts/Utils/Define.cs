@@ -5,4 +5,9 @@ using UnityEngine;
 public static class Define
 {
     public const string Addressable_ObjectPool_Label = "objectspool";
+
+    public enum ObserverSubject
+    {
+        None = 1
+    }
 }

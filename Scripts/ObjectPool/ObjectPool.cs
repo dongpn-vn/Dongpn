@@ -29,7 +29,7 @@ namespace Dongpn.ObjectPool
             {
                 T rt = Instantiate(prefab).AddComponent<T>();
                 objectsDic.Add(currentIndex, rt);
-                Debug.Log("Request Index: "+currentIndex);
+                //Debug.Log("Request Index: "+currentIndex);
                 rt.Index = currentIndex;
                 currentIndex++;
                 return rt;
@@ -50,7 +50,7 @@ namespace Dongpn.ObjectPool
         {
             currentIndex--;
             SwapObjects(index, currentIndex);
-            Debug.Log("Recycle Index:"+currentIndex);
+            //Debug.Log("Recycle Index:"+currentIndex);
         }
         
     }

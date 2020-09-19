@@ -5,6 +5,7 @@ using Dongpn.ObjectPool;
 
 public class Test : MonoBehaviour
 {
+    private bool isSpawn = false;
 
     private void Start()
     {
@@ -16,11 +17,17 @@ public class Test : MonoBehaviour
     {
         if(Input.GetKeyUp(KeyCode.Space))
         {
-            for(int i = 0; i < 1000; i++)
-            {
-                BulletPoolManager.Instance.RequestObject().ObjectActive();
-            }
+            isSpawn = !isSpawn;
         } 
+
+        if(isSpawn)
+        {
+            for(int i = 0; i < 5; i++)
+            {
+                LargePoolBullet bullet = BulletPoolManager.Instance.RequestObject();
+                bullet.ObjectActive();
+            }
+        }
         
         if(Input.GetMouseButtonDown(0))
         {
