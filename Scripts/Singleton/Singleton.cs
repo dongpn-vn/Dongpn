@@ -8,12 +8,19 @@ namespace Dongpn.Singleton
 
     public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
     {
+        private static bool isApplicationQuiting = false;
+
         private static T instance;
 
         public static T Instance
         {
             get
             {
+                if(isApplicationQuiting)
+                {
+                    return null;
+                }
+
                 if (instance == null)
                 {
                     instance = new GameObject(typeof(T).Name).AddComponent<T>();
@@ -47,5 +54,9 @@ namespace Dongpn.Singleton
             }
         }
 
+        private void OnApplicationQuit()
+        {
+            isApplicationQuiting = true;
+        }
     }
 }
